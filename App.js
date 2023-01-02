@@ -5,6 +5,7 @@ import { initializeApp, getApps } from "firebase/app";
 import { getAnalytics } from "firebase/analytics";
 import Landing from "./components/auth/Landing";
 import Register from "./components/auth/Register";
+import LogIn from "./components/auth/Login";
 
 import {
   API_KEY,
@@ -43,6 +44,11 @@ export default function App() {
         <Stack.Screen
           name="Register"
           component={Register}
+          options={{ headerShown: false }}
+        />
+        <Stack.Screen
+          name="LogIn"
+          component={LogIn}
           options={{ headerShown: false }}
         />
       </Stack.Navigator>
