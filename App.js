@@ -1,4 +1,5 @@
 import { StatusBar } from "expo-status-bar";
+import { TouchableOpacity } from "react-native";
 import { NavigationContainer } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import { initializeApp, getApps } from "firebase/app";
@@ -6,6 +7,7 @@ import { getAnalytics } from "firebase/analytics";
 import Landing from "./components/auth/Landing";
 import Register from "./components/auth/Register";
 import LogIn from "./components/auth/Login";
+import { Entypo } from "@expo/vector-icons";
 
 import {
   API_KEY,
@@ -44,12 +46,36 @@ export default function App() {
         <Stack.Screen
           name="Register"
           component={Register}
-          options={{ headerShown: false }}
+          // options={({ navigation }) => ({
+          //   headerLeft: null,
+          //   headerRight: () => (
+          //     <TouchableOpacity onPress={() => navigation.pop()}>
+          //       <Entypo
+          //         name="cross"
+          //         color="blue"
+          //         size={30}
+          //         style={{ paddingHorizontal: 10 }}
+          //       />
+          //     </TouchableOpacity>
+          //   ),
+          // })}
         />
         <Stack.Screen
-          name="LogIn"
+          name="Log In"
           component={LogIn}
-          options={{ headerShown: false }}
+          // options={({ navigation }) => ({
+          //   headerLeft: null,
+          //   headerLeft: () => (
+          //     <TouchableOpacity onPress={() => navigation.pop()}>
+          //       <Entypo
+          //         name="cross"
+          //         color="blue"
+          //         size={30}
+          //         style={{ paddingHorizontal: 10 }}
+          //       />
+          //     </TouchableOpacity>
+          //   ),
+          // })}
         />
       </Stack.Navigator>
     </NavigationContainer>

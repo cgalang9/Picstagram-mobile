@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { Button, TextInput, StyleSheet } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
-import { getAuth } from "firebase/auth";
+import { getAuth, signInWithEmailAndPassword } from "firebase/auth";
 
 const styles = StyleSheet.create({
   wrapper: {
@@ -25,6 +25,17 @@ export default function LogIn() {
 
   const onSignIn = async () => {
     const auth = getAuth();
+    signInWithEmailAndPassword(auth, email, password)
+      .then((userCredential) => {
+        const user = userCredential.user;
+        console.log(user);
+      })
+      .catch((error) => {
+        const errorCode = error.code;
+        const errorMessage = error.message;
+        console.log(errorCode);
+        console.log(errorMessage);
+      });
   };
 
   return (

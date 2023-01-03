@@ -16,7 +16,7 @@ export default function Landing({ navigation }) {
         title="Register"
         onPress={() => navigation.navigate("Register")}
       />
-      <Button title="Log In" onPress={() => navigation.navigate("LogIn")} />
+      <Button title="Log In" onPress={() => navigation.navigate("Log In")} />
     </SafeAreaView>
   );
 }
