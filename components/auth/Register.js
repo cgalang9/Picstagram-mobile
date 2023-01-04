@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { View, Button, TextInput, StyleSheet } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { getAuth, createUserWithEmailAndPassword } from "firebase/auth";
-import { collection, addDoc } from "firebase/firestore";
+import { doc, setDoc } from "firebase/firestore";
 import { db } from "../../App";
 
 const styles = StyleSheet.create({
@@ -33,11 +33,10 @@ export default function Register() {
         const user = userCredential.user;
         console.log(user);
         try {
-          const docRef = await addDoc(collection(db, "users"), {
+          const docRef = await setDoc(doc(db, "users", user.uid), {
             name,
             email,
           });
-          console.log("Document written with ID: ", docRef.id);
         } catch (e) {
           console.error("Error adding document: ", e);
         }
