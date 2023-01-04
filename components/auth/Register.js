@@ -2,6 +2,8 @@ import React, { useState } from "react";
 import { View, Button, TextInput, StyleSheet } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { getAuth, createUserWithEmailAndPassword } from "firebase/auth";
+import { collection, addDoc } from "firebase/firestore";
+import { db } from "../../App";
 
 const styles = StyleSheet.create({
   wrapper: {
@@ -27,9 +29,18 @@ export default function Register() {
   const onSignUp = async () => {
     const auth = getAuth();
     createUserWithEmailAndPassword(auth, email, password)
-      .then((userCredential) => {
+      .then(async (userCredential) => {
         const user = userCredential.user;
         console.log(user);
+        try {
+          const docRef = await addDoc(collection(db, "users"), {
+            name,
+            email,
+          });
+          console.log("Document written with ID: ", docRef.id);
+        } catch (e) {
+          console.error("Error adding document: ", e);
+        }
       })
       .catch((error) => {
         const errorCode = error.code;
