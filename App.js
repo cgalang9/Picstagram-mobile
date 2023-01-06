@@ -1,5 +1,5 @@
 import { StatusBar } from "expo-status-bar";
-import { TouchableOpacity, View, StyleSheet, Text, Button } from "react-native";
+import { TouchableOpacity, View, StyleSheet, Text } from "react-native";
 import { NavigationContainer } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import { initializeApp, getApps } from "firebase/app";
@@ -8,9 +8,15 @@ import { getFirestore } from "firebase/firestore";
 import Landing from "./components/auth/Landing";
 import Register from "./components/auth/Register";
 import LogIn from "./components/auth/Login";
+import Main from "./components/Main";
 // import { Entypo } from "@expo/vector-icons";
 import { useState } from "react";
-import { getAuth, onAuthStateChanged, signOut } from "firebase/auth";
+import { getAuth, onAuthStateChanged } from "firebase/auth";
+
+//For redux
+import { Provider } from "react-redux";
+import configureStore from "./store";
+const store = configureStore();
 
 import {
   API_KEY,
@@ -56,7 +62,7 @@ export default function App() {
   onAuthStateChanged(auth, (user) => {
     if (user) {
       const uid = user.uid;
-      console.log(user);
+      // console.log(user);
       setIsLoaded(true);
       setIsLoggedIn(true);
     } else {
@@ -64,21 +70,6 @@ export default function App() {
       setIsLoggedIn(false);
     }
   });
-
-  // const signOut = async () => {
-  //   const auth = getAuth();
-  //   signOut(auth)
-  //     .then(() => {
-  //       // const user = userCredential.user;
-  //       console.log(user);
-  //     })
-  //     .catch((error) => {
-  //       const errorCode = error.code;
-  //       const errorMessage = error.message;
-  //       console.log(errorCode);
-  //       console.log(errorMessage);
-  //     });
-  // };
 
   if (!isLoaded) {
     return (
@@ -136,9 +127,8 @@ export default function App() {
     );
   }
   return (
-    <View style={styles.wrapper}>
-      <Text>User Logged In</Text>
-      {/* <Button title="Sign Out" onPress={signOut}></Button> */}
-    </View>
+    <Provider store={store}>
+      <Main />
+    </Provider>
   );
 }
