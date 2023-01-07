@@ -9,6 +9,7 @@ import Landing from "./components/auth/Landing";
 import Register from "./components/auth/Register";
 import LogIn from "./components/auth/Login";
 import Main from "./components/Main";
+import Add from "./components/main/Add";
 // import { Entypo } from "@expo/vector-icons";
 import { useState } from "react";
 import { getAuth, onAuthStateChanged } from "firebase/auth";
@@ -134,6 +135,11 @@ export default function App() {
             name="Main"
             component={Main}
             options={{ headerShown: false }}
+          />
+          <Stack.Screen
+            name="Add"
+            component={Add}
+            // options={{ headerShown: false }}
           />
         </Stack.Navigator>
       </NavigationContainer>

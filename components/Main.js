@@ -12,7 +12,11 @@ import Profile from "./main/Profile";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 const Tab = createBottomTabNavigator();
 
-export default function Main() {
+const Empty = () => {
+  return null;
+};
+
+export default function Main({ navigation }) {
   const dispatch = useDispatch();
   const user = useSelector((state) => state.user.currUser);
   useEffect(() => {
@@ -38,6 +42,7 @@ export default function Main() {
   // };
   return (
     <Tab.Navigator
+      initialRouteName="Feed"
       screenOptions={{
         tabBarActiveTintColor: "white",
         tabBarStyle: { backgroundColor: "black" },
@@ -54,13 +59,19 @@ export default function Main() {
         }}
       />
       <Tab.Screen
-        name="Add"
-        component={Add}
+        name="NavAdd"
+        component={Empty}
         options={{
           tabBarIcon: ({ color, size }) => (
             <MaterialCommunityIcons name="plus-box" color={color} size={32} />
           ),
         }}
+        listeners={({ navigation }) => ({
+          tabPress: (e) => {
+            e.preventDefault();
+            navigation.navigate("Add");
+          },
+        })}
       />
       <Tab.Screen
         name="Profile"
