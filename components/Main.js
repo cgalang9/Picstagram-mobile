@@ -1,15 +1,16 @@
 import React, { useEffect } from "react";
-import { View, Text, Button, StyleSheet } from "react-native";
+// import { View, Text, Button, StyleSheet } from "react-native";
 import { useDispatch, useSelector } from "react-redux";
 import { getUserThunk } from "../store/user";
 // import { getAuth, signOut } from "firebase/auth";
-const styles = StyleSheet.create({
-  wrapper: {
-    flex: 1,
-    alignItems: "center",
-    marginTop: 100,
-  },
-});
+import MaterialCommunityIcons from "react-native-vector-icons/MaterialCommunityIcons";
+import Foundation from "react-native-vector-icons/Foundation";
+import Feed from "./main/Feed";
+import Add from "./main/Add";
+import Profile from "./main/Profile";
+
+import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
+const Tab = createBottomTabNavigator();
 
 export default function Main() {
   const dispatch = useDispatch();
@@ -20,7 +21,7 @@ export default function Main() {
     };
     getCurrUser();
   }, []);
-  console.log(user);
+
   // const signOut = async () => {
   //   const auth = getAuth();
   //   signOut(auth)
@@ -36,8 +37,44 @@ export default function Main() {
   //     });
   // };
   return (
-    <View style={styles.wrapper}>
-      <Text>Test</Text>
-    </View>
+    <Tab.Navigator
+      screenOptions={{
+        tabBarActiveTintColor: "white",
+        tabBarStyle: { backgroundColor: "black" },
+        tabBarShowLabel: false,
+      }}
+    >
+      <Tab.Screen
+        name="Feed"
+        component={Feed}
+        options={{
+          tabBarIcon: ({ color, size }) => (
+            <Foundation name="home" color={color} size={32} />
+          ),
+        }}
+      />
+      <Tab.Screen
+        name="Add"
+        component={Add}
+        options={{
+          tabBarIcon: ({ color, size }) => (
+            <MaterialCommunityIcons name="plus-box" color={color} size={32} />
+          ),
+        }}
+      />
+      <Tab.Screen
+        name="Profile"
+        component={Profile}
+        options={{
+          tabBarIcon: ({ color, size }) => (
+            <MaterialCommunityIcons
+              name="account-circle"
+              color={color}
+              size={32}
+            />
+          ),
+        }}
+      />
+    </Tab.Navigator>
   );
 }
