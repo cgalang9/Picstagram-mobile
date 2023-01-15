@@ -8,12 +8,14 @@ import {
   View,
   Image,
 } from "react-native";
+import * as ImagePicker from "expo-image-picker";
 
 export default function Add() {
   const [type, setType] = useState(CameraType.back);
   const [permission, requestPermission] = Camera.useCameraPermissions();
   const [camera, setCamera] = useState(null);
   const [imageUri, setImageUri] = useState(null);
+  const [image, setImage] = useState(null);
 
   if (!permission) {
     // Camera permissions are still loading
@@ -31,6 +33,22 @@ export default function Add() {
       </View>
     );
   }
+
+  const pickImage = async () => {
+    // No permissions request is necessary for launching the image library
+    let result = await ImagePicker.launchImageLibraryAsync({
+      mediaTypes: ImagePicker.MediaTypeOptions.Image,
+      allowsEditing: true,
+      aspect: [4, 3],
+      quality: 1,
+    });
+
+    console.log(result);
+
+    if (!result.canceled) {
+      setImage(result.assets[0].uri);
+    }
+  };
 
   const takePicture = async () => {
     if (camera) {
@@ -61,6 +79,9 @@ export default function Add() {
           <TouchableOpacity style={styles.takePicBtn} onPress={takePicture}>
             <Text style={styles.text}>Take Pic</Text>
           </TouchableOpacity>
+        </View>
+        <View style={{ flex: 1, marginBottom: 5 }}>
+          <Button title="Pick an image from camera roll" onPress={pickImage} />
         </View>
         {imageUri && <Image source={{ uri: imageUri }} style={{ flex: 1 }} />}
       </Camera>
