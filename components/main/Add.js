@@ -9,8 +9,9 @@ import {
   Image,
 } from "react-native";
 import * as ImagePicker from "expo-image-picker";
+import { NavigationHelpersContext } from "@react-navigation/native";
 
-export default function Add() {
+export default function Add({ navigation }) {
   const [type, setType] = useState(CameraType.back);
   const [permission, requestPermission] = Camera.useCameraPermissions();
   const [camera, setCamera] = useState(null);
@@ -80,8 +81,14 @@ export default function Add() {
             <Text style={styles.text}>Take Pic</Text>
           </TouchableOpacity>
         </View>
-        <View style={{ flex: 1, marginBottom: 5 }}>
+        <View>
           <Button title="Pick an image from camera roll" onPress={pickImage} />
+        </View>
+        <View style={{ flex: 1, marginBottom: 5 }}>
+          <Button
+            title="Save"
+            onPress={() => navigation.navigate("Save", { imageUri })}
+          />
         </View>
         {imageUri && <Image source={{ uri: imageUri }} style={{ flex: 1 }} />}
       </Camera>

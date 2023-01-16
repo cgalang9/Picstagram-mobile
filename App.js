@@ -10,9 +10,11 @@ import Register from "./components/auth/Register";
 import LogIn from "./components/auth/Login";
 import Main from "./components/Main";
 import Add from "./components/main/Add";
+import Save from "./components/main/Save";
 // import { Entypo } from "@expo/vector-icons";
 import { useState } from "react";
 import { getAuth, onAuthStateChanged } from "firebase/auth";
+import { getStorage } from "firebase/storage";
 
 //For redux
 import { Provider } from "react-redux";
@@ -39,11 +41,12 @@ const firebaseConfig = {
   measurementId: MEASUREMENT_ID,
 };
 
-let app = null;
+export let storage = null;
 export let db = null;
 if (getApps().length < 1) {
   const app = initializeApp(firebaseConfig);
   db = getFirestore(app);
+  storage = getStorage(app);
 }
 
 const styles = StyleSheet.create({
@@ -139,6 +142,11 @@ export default function App() {
           <Stack.Screen
             name="Add"
             component={Add}
+            // options={{ headerShown: false }}
+          />
+          <Stack.Screen
+            name="Save"
+            component={Save}
             // options={{ headerShown: false }}
           />
         </Stack.Navigator>

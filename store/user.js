@@ -4,9 +4,9 @@ import { db } from "../App";
 
 //constants
 const GET_USER = "user/SET_USER";
-const getUser = (user) => ({
+const getUser = (user, uid) => ({
   type: GET_USER,
-  currUser: user,
+  currUser: { ...user, uid: uid },
 });
 
 export const getUserThunk = () => async (dispatch) => {
@@ -18,7 +18,7 @@ export const getUserThunk = () => async (dispatch) => {
   const docSnap = await getDoc(docRef);
 
   if (docSnap.exists()) {
-    dispatch(getUser(docSnap.data()));
+    dispatch(getUser(docSnap.data(), user.uid));
   } else {
     // doc.data() will be undefined in this case
     console.log("No such document!");
