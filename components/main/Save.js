@@ -1,14 +1,9 @@
 import React, { useState } from "react";
 import { View, TextInput, Image, Button, StyleSheet } from "react-native";
-// import { ref, uploadBytes } from "firebase/storage";
-import {
-  getStorage,
-  ref,
-  uploadBytesResumable,
-  getDownloadURL,
-} from "firebase/storage";
-import { storage } from "../../App";
+import { ref, uploadBytesResumable, getDownloadURL } from "firebase/storage";
+import { storage, db } from "../../App";
 import { useSelector } from "react-redux";
+import { doc, setDoc, serverTimestamp } from "firebase/firestore";
 
 const styles = StyleSheet.create({
   wrapper: {
@@ -20,10 +15,8 @@ const styles = StyleSheet.create({
 
 export default function Save({ route, navigation }) {
   const { imageUri } = route.params;
-  // console.log(imageUri);
   const [caption, setCaption] = useState("");
   const user = useSelector((state) => state.user.currUser);
-  // console.log(user.uid);
 
   const uplaodImage = async () => {
     const res = await fetch(imageUri);
@@ -61,6 +54,13 @@ export default function Save({ route, navigation }) {
         // For instance, get the download URL: https://firebasestorage.googleapis.com/...
         getDownloadURL(uploadTask.snapshot.ref).then((downloadURL) => {
           console.log("File available at", downloadURL);
+          setDoc(doc(db, "posts/" + user.uid + "userPosts"), {
+            downloadURL: downloadURL,
+            caption: caption,
+            created: serverTimestamp(),
+          }).then(() => {
+            navigation.popToTop();
+          });
         });
       }
     );

@@ -43,10 +43,12 @@ const firebaseConfig = {
 
 export let storage = null;
 export let db = null;
+export let database = null;
 if (getApps().length < 1) {
   const app = initializeApp(firebaseConfig);
   db = getFirestore(app);
   storage = getStorage(app);
+  console.log(db);
 }
 
 const styles = StyleSheet.create({
