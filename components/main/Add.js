@@ -10,6 +10,7 @@ import {
 } from "react-native";
 import * as ImagePicker from "expo-image-picker";
 import { NavigationHelpersContext } from "@react-navigation/native";
+import Ionicons from "react-native-vector-icons/Ionicons";
 
 export default function Add({ navigation }) {
   const [type, setType] = useState(CameraType.back);
@@ -73,18 +74,19 @@ export default function Add({ navigation }) {
         ratio={"1:1"}
         ref={(ref) => setCamera(ref)}
       >
-        <View style={styles.buttonContainer}>
+        <View style={{ flex: 1, padding: 15 }}>
           <TouchableOpacity style={styles.button} onPress={toggleCameraType}>
-            <Text style={styles.text}>Flip Camera</Text>
+            <Ionicons name="camera-reverse" color="white" size={32} />
           </TouchableOpacity>
-          <TouchableOpacity style={styles.takePicBtn} onPress={takePicture}>
+        </View>
+        <View style={styles.buttonContainer}>
+          <TouchableOpacity
+            onPress={takePicture}
+            style={{ alignItems: "center" }}
+          >
             <Text style={styles.text}>Take Pic</Text>
           </TouchableOpacity>
-        </View>
-        <View>
           <Button title="Pick an image from camera roll" onPress={pickImage} />
-        </View>
-        <View style={{ flex: 1, marginBottom: 5 }}>
           <Button
             title="Save"
             onPress={() => navigation.navigate("Save", { imageUri })}
@@ -99,21 +101,17 @@ export default function Add({ navigation }) {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    justifyContent: "center",
   },
   camera: {
     flex: 1,
   },
   buttonContainer: {
     flex: 1,
-    flexDirection: "row",
-    backgroundColor: "transparent",
-    margin: 64,
+    justifyContent: "flex-end",
+    marginBottom: 30,
   },
   button: {
     flex: 1,
-    alignSelf: "flex-end",
-    alignItems: "center",
   },
   takePicBtn: {
     flex: 1,
