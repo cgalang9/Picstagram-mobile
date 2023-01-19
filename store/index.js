@@ -1,9 +1,11 @@
 import { createStore, combineReducers, applyMiddleware, compose } from "redux";
 import thunk from "redux-thunk";
 import user from "./user";
+import userPosts from "./userPosts";
 
 const rootReducer = combineReducers({
   user,
+  userPosts,
 });
 
 let enhancer;

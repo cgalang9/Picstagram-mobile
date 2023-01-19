@@ -2,6 +2,7 @@ import React, { useEffect } from "react";
 // import { View, Text, Button, StyleSheet } from "react-native";
 import { useDispatch, useSelector } from "react-redux";
 import { getUserThunk } from "../store/user";
+import { getUserPostsThunk } from "../store/userPosts";
 // import { getAuth, signOut } from "firebase/auth";
 import MaterialCommunityIcons from "react-native-vector-icons/MaterialCommunityIcons";
 import Foundation from "react-native-vector-icons/Foundation";
