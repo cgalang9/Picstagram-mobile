@@ -24,6 +24,7 @@ export default function Main({ navigation }) {
     const getCurrUser = async () => {
       dispatch(getUserThunk());
     };
+    dispatch(getUserPostsThunk());
     getCurrUser();
   }, []);
 

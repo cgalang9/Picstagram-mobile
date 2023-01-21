@@ -1,8 +1,6 @@
-import { doc, getDoc } from "firebase/firestore";
 import { getAuth } from "firebase/auth";
 import { db } from "../App";
-import { orderBy } from "firebase/firestore";
-import { collection, getDocs } from "firebase/firestore";
+import { collection, getDocs, query, orderBy } from "firebase/firestore";
 
 //constants
 const GET_USER_POSTS = "userPosts/GET_USER_POSTS";
@@ -15,8 +13,12 @@ export const getUserPostsThunk = () => async (dispatch) => {
   const auth = getAuth();
   const user = auth.currentUser;
   if (!user) return console.log(" No user is signed in");
+
   const docRef = collection(db, "posts/" + user.uid + "/userPosts");
-  const querySnapshot = await getDocs(docRef);
+
+  const q = query(docRef, orderBy("created", "desc"));
+
+  const querySnapshot = await getDocs(q);
   console.log(querySnapshot);
   let posts = [];
   querySnapshot.forEach((doc) => {
