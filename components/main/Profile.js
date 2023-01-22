@@ -5,10 +5,19 @@ import { useSelector } from "react-redux";
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    marginTop: 40,
+    backgroundColor: "black",
   },
   infoContainer: {
     margin: 20,
+    flexDirection: "row",
+  },
+  infoContainerName: {
+    flex: 1,
+  },
+  infoContainerCol: {
+    paddingHorizontal: 5,
+    flex: 1,
+    alignItems: "center",
   },
   galleryContainer: {
     flex: 1,
@@ -20,17 +29,25 @@ const styles = StyleSheet.create({
   containerImage: {
     flex: 1 / 3,
   },
+  text: {
+    color: "white",
+  },
 });
 
 export default function Profile() {
   const userPosts = useSelector((state) => state.userPosts);
   const user = useSelector((state) => state.user.currUser);
-  console.log(userPosts);
   return (
     <View style={styles.container}>
       <View style={styles.infoContainer}>
-        <Text>{user.name}</Text>
-        <Text>{user.email}</Text>
+        <View style={styles.infoContainerName}>
+          <Text style={styles.text}>{user.name}</Text>
+          <Text style={styles.text}>{user.email}</Text>
+        </View>
+        <View style={styles.infoContainerCol}>
+          <Text style={styles.text}>{userPosts.length}</Text>
+          <Text style={styles.text}>Posts</Text>
+        </View>
       </View>
       <View style={styles.galleryContainer}>
         <FlatList
