@@ -7,6 +7,7 @@ import { getUserPostsThunk } from "../store/userPosts";
 import MaterialCommunityIcons from "react-native-vector-icons/MaterialCommunityIcons";
 import Foundation from "react-native-vector-icons/Foundation";
 import Feed from "./main/Feed";
+import Search from "./main/Search";
 import Add from "./main/Add";
 import Profile from "./main/Profile";
 
@@ -53,7 +54,7 @@ export default function Main({ navigation }) {
     >
       <Tab.Screen
         name="Feed"
-        component={Feed}
+        component={Search}
         options={{
           tabBarIcon: ({ color, size }) => (
             <Foundation name="home" color={color} size={32} />
