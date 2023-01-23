@@ -19,13 +19,11 @@ export const getUserPostsThunk = () => async (dispatch) => {
   const q = query(docRef, orderBy("created", "desc"));
 
   const querySnapshot = await getDocs(q);
-  console.log(querySnapshot);
   let posts = [];
   querySnapshot.forEach((doc) => {
     // doc.data() is never undefined for query doc snapshots
     posts.push({ ...doc.data(), id: doc.id });
   });
-  console.log(posts);
   dispatch(getUserPosts(posts));
 };
 
