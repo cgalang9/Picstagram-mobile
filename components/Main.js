@@ -6,6 +6,7 @@ import { getUserPostsThunk } from "../store/userPosts";
 // import { getAuth, signOut } from "firebase/auth";
 import MaterialCommunityIcons from "react-native-vector-icons/MaterialCommunityIcons";
 import Foundation from "react-native-vector-icons/Foundation";
+import Ionicons from "react-native-vector-icons/Ionicons";
 import Feed from "./main/Feed";
 import Search from "./main/Search";
 import Add from "./main/Add";
@@ -54,10 +55,19 @@ export default function Main({ navigation }) {
     >
       <Tab.Screen
         name="Feed"
-        component={Search}
+        component={Feed}
         options={{
           tabBarIcon: ({ color, size }) => (
             <Foundation name="home" color={color} size={32} />
+          ),
+        }}
+      />
+      <Tab.Screen
+        name="Search"
+        component={Search}
+        options={{
+          tabBarIcon: ({ color, size }) => (
+            <Ionicons name="search" color={color} size={32} />
           ),
         }}
       />
