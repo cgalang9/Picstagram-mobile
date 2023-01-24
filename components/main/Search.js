@@ -1,5 +1,12 @@
 import React, { useEffect, useState } from "react";
-import { View, Text, TextInput, FlatList, StyleSheet } from "react-native";
+import {
+  View,
+  Text,
+  TextInput,
+  FlatList,
+  StyleSheet,
+  TouchableOpacity,
+} from "react-native";
 import { collection, query, where, getDocs } from "firebase/firestore";
 import { db } from "../../App";
 
@@ -8,9 +15,12 @@ const styles = StyleSheet.create({
     flex: 1,
     padding: 20,
   },
+  searchItem: {
+    padding: 10,
+  },
 });
 
-export default function Search() {
+export default function Search({ navigation }) {
   const [users, setUsers] = useState([]);
 
   const fetchUsers = async (search) => {
@@ -35,7 +45,14 @@ export default function Search() {
         numColumns={1}
         horizontal={false}
         renderItem={({ item }) => {
-          return <Text>{item.name}</Text>;
+          return (
+            <TouchableOpacity
+              style={styles.searchItem}
+              onPress={() => navigation.navigate("Profile", { uid: item.id })}
+            >
+              <Text>{item.name}</Text>
+            </TouchableOpacity>
+          );
         }}
         keyExtractor={(item) => {
           item.id.toString();

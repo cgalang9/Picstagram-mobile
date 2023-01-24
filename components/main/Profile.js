@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { View, Text, Image, FlatList, StyleSheet } from "react-native";
 import { useSelector } from "react-redux";
 
@@ -34,9 +34,26 @@ const styles = StyleSheet.create({
   },
 });
 
-export default function Profile() {
-  const userPosts = useSelector((state) => state.userPosts);
-  const user = useSelector((state) => state.user.currUser);
+export default function Profile({ route, navigation }) {
+  const [userPosts, setUserPosts] = useState([]);
+  const [user, setUser] = useState(null);
+  const currUserPosts = useSelector((state) => state.userPosts);
+  const currUser = useSelector((state) => state.user.currUser);
+
+  console.log(route.params);
+  console.log(currUser);
+
+  useEffect(() => {
+    if (route.params.uid === currUser.uid) {
+      setUserPosts(currUserPosts);
+      setUser(currUser);
+    }
+  }, []);
+
+  if (!user) {
+    return <View></View>;
+  }
+
   return (
     <View style={styles.container}>
       <View style={styles.infoContainer}>

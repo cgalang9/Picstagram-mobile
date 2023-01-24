@@ -98,6 +98,12 @@ export default function Main({ navigation }) {
             />
           ),
         }}
+        listeners={({ navigation }) => ({
+          tabPress: (e) => {
+            e.preventDefault();
+            navigation.navigate("Profile", { uid: user.uid });
+          },
+        })}
       />
     </Tab.Navigator>
   );
