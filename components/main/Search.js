@@ -48,7 +48,13 @@ export default function Search({ navigation }) {
           return (
             <TouchableOpacity
               style={styles.searchItem}
-              onPress={() => navigation.navigate("Profile", { uid: item.id })}
+              onPress={() =>
+                navigation.navigate("Profile", {
+                  uid: item.id,
+                  name: item.name,
+                  email: item.email,
+                })
+              }
             >
               <Text>{item.name}</Text>
             </TouchableOpacity>
