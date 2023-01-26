@@ -1,9 +1,19 @@
 import React, { useEffect, useState } from "react";
-import { View, Text, Image, FlatList, StyleSheet } from "react-native";
-import { useSelector } from "react-redux";
+import { View, Text, Image, FlatList, StyleSheet, Button } from "react-native";
+import { useDispatch, useSelector } from "react-redux";
 import { getAuth } from "firebase/auth";
 import { db } from "../../App";
-import { collection, getDocs, query, orderBy } from "firebase/firestore";
+import {
+  collection,
+  getDocs,
+  query,
+  orderBy,
+  doc,
+  setDoc,
+  deleteDoc,
+} from "firebase/firestore";
+
+import { getUserFollowingThunk } from "../../store/following";
 
 const styles = StyleSheet.create({
   container: {
@@ -35,13 +45,22 @@ const styles = StyleSheet.create({
   text: {
     color: "white",
   },
+  followBtn: {
+    backgroundColor: "#1DA1F2",
+    padding: 3,
+    borderRadius: 5,
+    marginTop: 10,
+  },
 });
 
 export default function Profile({ route, navigation }) {
+  const dispatch = useDispatch();
   const [userPosts, setUserPosts] = useState([]);
   const [user, setUser] = useState(null);
+  const [following, setFollowing] = useState(false);
   const currUserPosts = useSelector((state) => state.userPosts);
   const currUser = useSelector((state) => state.user.currUser);
+  const followingArr = useSelector((state) => state.following);
 
   useEffect(() => {
     if (route.params.uid === currUser.uid) {
@@ -68,6 +87,46 @@ export default function Profile({ route, navigation }) {
     }
   }, [route]);
 
+  useEffect(() => {
+    dispatch(getUserFollowingThunk());
+  }, [route]);
+
+  useEffect(() => {
+    if (followingArr.includes(route.params.uid)) {
+      setFollowing(true);
+    } else {
+      setFollowing(false);
+    }
+  }, [followingArr]);
+
+  const onFollow = () => {
+    const auth = getAuth();
+    const currUserAuth = auth.currentUser;
+    if (!currUserAuth) return console.log(" No user is signed in");
+
+    const docRef = doc(
+      db,
+      "following/" + currUser.uid + "/userFollowing/",
+      route.params.uid
+    );
+    const res = setDoc(docRef, {});
+    setFollowing(true);
+  };
+
+  const onUnfollow = () => {
+    const auth = getAuth();
+    const currUserAuth = auth.currentUser;
+    if (!currUserAuth) return console.log(" No user is signed in");
+
+    const docRef = doc(
+      db,
+      "following/" + currUser.uid + "/userFollowing/",
+      route.params.uid
+    );
+    const res = deleteDoc(docRef, {});
+    setFollowing(false);
+  };
+
   if (!user) {
     return <View></View>;
   }
@@ -78,6 +137,23 @@ export default function Profile({ route, navigation }) {
         <View style={styles.infoContainerName}>
           <Text style={styles.text}>{user.name}</Text>
           <Text style={styles.text}>{user.email}</Text>
+          {route.params.uid !== currUser.uid && (
+            <View style={styles.followBtn}>
+              {following ? (
+                <Button
+                  color="white"
+                  title="Following"
+                  onPress={() => onUnfollow()}
+                />
+              ) : (
+                <Button
+                  color="white"
+                  title="Follow"
+                  onPress={() => onFollow()}
+                />
+              )}
+            </View>
+          )}
         </View>
         <View style={styles.infoContainerCol}>
           <Text style={styles.text}>{userPosts.length}</Text>
