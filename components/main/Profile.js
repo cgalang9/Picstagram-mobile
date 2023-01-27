@@ -14,6 +14,8 @@ import {
 } from "firebase/firestore";
 
 import { getUserFollowingThunk } from "../../store/following";
+import { logOutThunk } from "../../store/user";
+import { getUserPostsThunk } from "../../store/userPosts";
 
 const styles = StyleSheet.create({
   container: {
@@ -64,6 +66,7 @@ export default function Profile({ route, navigation }) {
 
   useEffect(() => {
     if (route.params.uid === currUser.uid) {
+      dispatch(getUserPostsThunk());
       setUserPosts(currUserPosts);
       setUser(currUser);
     } else {
@@ -127,6 +130,21 @@ export default function Profile({ route, navigation }) {
     setFollowing(false);
   };
 
+  // const signOut = () => {
+  //   const auth = getAuth();
+  //   signOut(auth)
+  //     .then(() => {
+  //       // const user = userCredential.user;
+  //       console.log(user);
+  //     })
+  //     .catch((error) => {
+  //       const errorCode = error.code;
+  //       const errorMessage = error.message;
+  //       console.log(errorCode);
+  //       console.log(errorMessage);
+  //     });
+  // };
+
   if (!user) {
     return <View></View>;
   }
@@ -137,7 +155,7 @@ export default function Profile({ route, navigation }) {
         <View style={styles.infoContainerName}>
           <Text style={styles.text}>{user.name}</Text>
           <Text style={styles.text}>{user.email}</Text>
-          {route.params.uid !== currUser.uid && (
+          {route.params.uid !== currUser.uid ? (
             <View style={styles.followBtn}>
               {following ? (
                 <Button
@@ -152,6 +170,14 @@ export default function Profile({ route, navigation }) {
                   onPress={() => onFollow()}
                 />
               )}
+            </View>
+          ) : (
+            <View style={styles.followBtn}>
+              <Button
+                color="white"
+                title="Sign out"
+                onPress={() => dispatch(logOutThunk())}
+              />
             </View>
           )}
         </View>

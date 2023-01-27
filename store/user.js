@@ -1,8 +1,8 @@
 import { doc, getDoc } from "firebase/firestore";
-import { getAuth } from "firebase/auth";
+import { getAuth, signOut } from "firebase/auth";
 import { db } from "../App";
 
-//constants
+//get user
 const GET_USER = "user/SET_USER";
 const getUser = (user, uid) => ({
   type: GET_USER,
@@ -25,12 +25,30 @@ export const getUserThunk = () => async (dispatch) => {
   }
 };
 
+//logout
+const LOG_OUT = "user/SET_USER";
+const logOut = () => ({
+  type: LOG_OUT,
+});
+export const logOutThunk = () => async (dispatch) => {
+  const auth = getAuth();
+  signOut(auth)
+    .then(() => {
+      dispatch(logOut());
+    })
+    .catch((error) => {
+      console.log(error);
+    });
+};
+
 const initialState = { currUser: null };
 
 export default function reducer(state = initialState, action) {
   switch (action.type) {
     case GET_USER:
       return { currUser: action.currUser };
+    case LOG_OUT:
+      return { currUser: null };
     default:
       return state;
   }

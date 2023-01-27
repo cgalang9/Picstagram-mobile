@@ -30,20 +30,6 @@ export default function Main({ navigation }) {
     getCurrUser();
   }, []);
 
-  // const signOut = async () => {
-  //   const auth = getAuth();
-  //   signOut(auth)
-  //     .then(() => {
-  //       // const user = userCredential.user;
-  //       console.log(user);
-  //     })
-  //     .catch((error) => {
-  //       const errorCode = error.code;
-  //       const errorMessage = error.message;
-  //       console.log(errorCode);
-  //       console.log(errorMessage);
-  //     });
-  // };
   return (
     <Tab.Navigator
       initialRouteName="Feed"

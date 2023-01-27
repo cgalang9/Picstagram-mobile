@@ -4,9 +4,9 @@ import { collection, getDocs, query } from "firebase/firestore";
 
 //constants
 const GET_USER_FOLLOWING = "following/GET_USER_FOLLOWING";
-const getUserFollowing = (follwing) => ({
+const getUserFollowing = (following) => ({
   type: GET_USER_FOLLOWING,
-  following: follwing,
+  following: following,
 });
 
 export const getUserFollowingThunk = () => async (dispatch) => {
@@ -19,12 +19,12 @@ export const getUserFollowingThunk = () => async (dispatch) => {
   const q = query(docRef);
 
   const querySnapshot = await getDocs(q);
-  let follwing = [];
+  let following = [];
   querySnapshot.forEach((doc) => {
     // doc.data() is never undefined for query doc snapshots
-    follwing.push(doc.id);
+    following.push(doc.id);
   });
-  dispatch(getUserFollowing(follwing));
+  dispatch(getUserFollowing(following));
 };
 
 const initialState = [];
