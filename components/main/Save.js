@@ -58,8 +58,9 @@ export default function Save({ route, navigation }) {
             downloadURL: downloadURL,
             caption: caption,
             created: serverTimestamp(),
+            postedBy: user,
           }).then(() => {
-            navigation.popToTop();
+            navigation.navigate("Feed");
           });
         });
       }
