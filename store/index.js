@@ -3,11 +3,13 @@ import thunk from "redux-thunk";
 import user from "./user";
 import userPosts from "./userPosts";
 import following from "./following";
+import feedPosts from "./feedPosts";
 
 const rootReducer = combineReducers({
   user,
   userPosts,
   following,
+  feedPosts,
 });
 
 let enhancer;
