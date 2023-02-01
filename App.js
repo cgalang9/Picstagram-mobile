@@ -11,6 +11,7 @@ import LogIn from "./components/auth/Login";
 import Main from "./components/Main";
 import Add from "./components/main/Add";
 import Save from "./components/main/Save";
+import Comments from "./components/main/Comments";
 // import { Entypo } from "@expo/vector-icons";
 import { useState } from "react";
 import { getAuth, onAuthStateChanged } from "firebase/auth";
@@ -149,6 +150,11 @@ export default function App() {
           <Stack.Screen
             name="Save"
             component={Save}
+            // options={{ headerShown: false }}
+          />
+          <Stack.Screen
+            name="Comments"
+            component={Comments}
             // options={{ headerShown: false }}
           />
         </Stack.Navigator>

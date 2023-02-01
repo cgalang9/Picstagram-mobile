@@ -130,21 +130,6 @@ export default function Profile({ route, navigation }) {
     setFollowing(false);
   };
 
-  // const signOut = () => {
-  //   const auth = getAuth();
-  //   signOut(auth)
-  //     .then(() => {
-  //       // const user = userCredential.user;
-  //       console.log(user);
-  //     })
-  //     .catch((error) => {
-  //       const errorCode = error.code;
-  //       const errorMessage = error.message;
-  //       console.log(errorCode);
-  //       console.log(errorMessage);
-  //     });
-  // };
-
   if (!user) {
     return <View></View>;
   }

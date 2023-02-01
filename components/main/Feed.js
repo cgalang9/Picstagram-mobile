@@ -7,6 +7,7 @@ import {
   StyleSheet,
   Image,
   Dimensions,
+  TouchableOpacity,
 } from "react-native";
 import { useDispatch, useSelector } from "react-redux";
 import { getFeedPostsThunk } from "../../store/feedPosts";
@@ -34,7 +35,7 @@ const styles = StyleSheet.create({
   },
 });
 
-export default function Feed() {
+export default function Feed({ navigation }) {
   const followingArr = useSelector((state) => state.following);
   const posts = useSelector((state) => state.feedPosts);
   const dispatch = useDispatch();
@@ -56,6 +57,17 @@ export default function Feed() {
             <View style={styles.postContianer}>
               <Text style={styles.postHead}>{item.postedBy.name}</Text>
               <Image source={{ uri: item.downloadURL }} style={styles.image} />
+              <TouchableOpacity
+                onPress={() => {
+                  console.log("sssss");
+                  navigation.navigate("Comments", {
+                    postId: item.id,
+                    postedBy: item.postedBy,
+                  });
+                }}
+              >
+                <Text style={styles.postHead}>View Comments...</Text>
+              </TouchableOpacity>
             </View>
           )}
         />
