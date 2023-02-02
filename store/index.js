@@ -4,12 +4,14 @@ import user from "./user";
 import userPosts from "./userPosts";
 import following from "./following";
 import feedPosts from "./feedPosts";
+import comments from "./comments";
 
 const rootReducer = combineReducers({
   user,
   userPosts,
   following,
   feedPosts,
+  comments,
 });
 
 let enhancer;

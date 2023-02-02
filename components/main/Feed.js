@@ -59,7 +59,6 @@ export default function Feed({ navigation }) {
               <Image source={{ uri: item.downloadURL }} style={styles.image} />
               <TouchableOpacity
                 onPress={() => {
-                  console.log("sssss");
                   navigation.navigate("Comments", {
                     postId: item.id,
                     postedBy: item.postedBy,
