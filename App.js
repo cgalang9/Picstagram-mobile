@@ -12,7 +12,6 @@ import Main from "./components/Main";
 import Add from "./components/main/Add";
 import Save from "./components/main/Save";
 import Comments from "./components/main/Comments";
-// import { Entypo } from "@expo/vector-icons";
 import { useState } from "react";
 import { getAuth, onAuthStateChanged } from "firebase/auth";
 import { getStorage } from "firebase/storage";
@@ -98,19 +97,11 @@ export default function App() {
           <Stack.Screen
             name="Register"
             component={Register}
-            // options={({ navigation }) => ({
-            //   headerLeft: null,
-            //   headerRight: () => (
-            //     <TouchableOpacity onPress={() => navigation.pop()}>
-            //       <Entypo
-            //         name="cross"
-            //         color="blue"
-            //         size={30}
-            //         style={{ paddingHorizontal: 10 }}
-            //       />
-            //     </TouchableOpacity>
-            //   ),
-            // })}
+            options={({ navigation }) => ({
+              headerTransparent: true,
+              headerTintColor: "white",
+              title: "",
+            })}
           />
           <Stack.Screen
             name="Log In"

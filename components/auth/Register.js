@@ -1,30 +1,26 @@
 import React, { useState } from "react";
-import { View, Button, TextInput, StyleSheet } from "react-native";
+import { Text, View, Button, TextInput, TouchableOpacity } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { getAuth, createUserWithEmailAndPassword } from "firebase/auth";
 import { doc, setDoc } from "firebase/firestore";
 import { db } from "../../App";
-
-const styles = StyleSheet.create({
-  wrapper: {
-    flex: 1,
-    alignItems: "center",
-    marginTop: 100,
-  },
-  input: {
-    fontSize: 26,
-    padding: 5,
-    width: "60%",
-    borderWidth: 1,
-    borderColor: "black",
-    marginBottom: 25,
-  },
-});
+import { wrapper, styles } from "../utils/styles";
+import {
+  useFonts,
+  GrandHotel_400Regular,
+} from "@expo-google-fonts/grand-hotel";
 
 export default function Register() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [name, setName] = useState("");
+  let [fontsLoaded] = useFonts({
+    GrandHotel_400Regular,
+  });
+
+  if (!fontsLoaded) {
+    return null;
+  }
 
   const onSignUp = async () => {
     const auth = getAuth();
@@ -50,24 +46,40 @@ export default function Register() {
   };
 
   return (
-    <SafeAreaView style={styles.wrapper}>
+    <SafeAreaView style={wrapper.wrapper}>
+      <Text
+        style={{
+          fontFamily: "GrandHotel_400Regular",
+          fontSize: 60,
+          color: "white",
+          marginBottom: 20,
+        }}
+      >
+        Picstagram
+      </Text>
       <TextInput
         placeholder="Name"
         onChangeText={(name) => setName(name)}
-        style={styles.input}
+        style={styles.inputAuth}
+        placeholderTextColor={"white"}
       />
       <TextInput
         placeholder="Email"
         onChangeText={(email) => setEmail(email)}
-        style={styles.input}
+        style={styles.inputAuth}
+        placeholderTextColor={"white"}
       />
       <TextInput
         placeholder="Password"
         onChangeText={(password) => setPassword(password)}
         secureTextEntry={true}
-        style={styles.input}
+        style={styles.inputAuth}
+        placeholderTextColor={"white"}
       />
-      <Button title="Sign Up" onPress={onSignUp} />
+      {/* <Button title="Sign Up" onPress={onSignUp} /> */}
+      <TouchableOpacity onPress={onSignUp} style={styles.authBtn}>
+        <Text style={[styles.textWhite, { fontSize: 18 }]}>Sign Up</Text>
+      </TouchableOpacity>
     </SafeAreaView>
   );
 }
