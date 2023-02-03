@@ -106,19 +106,11 @@ export default function App() {
           <Stack.Screen
             name="Log In"
             component={LogIn}
-            // options={({ navigation }) => ({
-            //   headerLeft: null,
-            //   headerLeft: () => (
-            //     <TouchableOpacity onPress={() => navigation.pop()}>
-            //       <Entypo
-            //         name="cross"
-            //         color="blue"
-            //         size={30}
-            //         style={{ paddingHorizontal: 10 }}
-            //       />
-            //     </TouchableOpacity>
-            //   ),
-            // })}
+            options={({ navigation }) => ({
+              headerTransparent: true,
+              headerTintColor: "white",
+              title: "",
+            })}
           />
         </Stack.Navigator>
       </NavigationContainer>

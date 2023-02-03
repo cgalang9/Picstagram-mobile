@@ -1,5 +1,12 @@
-import React, { useState } from "react";
-import { Text, View, Button, TextInput, TouchableOpacity } from "react-native";
+import React, { useState, useEffect } from "react";
+import {
+  Text,
+  TextInput,
+  TouchableOpacity,
+  Keyboard,
+  Dimensions,
+  View,
+} from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { getAuth, createUserWithEmailAndPassword } from "firebase/auth";
 import { doc, setDoc } from "firebase/firestore";
@@ -14,6 +21,24 @@ export default function Register() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [name, setName] = useState("");
+  const [error, setError] = useState(null);
+  const [keyboardSpace, setKeyboardSpace] = useState(0);
+
+  useEffect(() => {
+    const listenerShow = Keyboard.addListener("keyboardDidShow", (e) => {
+      const screenHeight = Dimensions.get("window").height;
+      const endY = e.endCoordinates.screenY;
+      setKeyboardSpace(screenHeight - endY - 90);
+    });
+    const listenerHide = Keyboard.addListener("keyboardDidHide", () => {
+      setKeyboardSpace(0);
+    });
+    return () => {
+      listenerHide.remove();
+      listenerShow.remove();
+    };
+  }, []);
+
   let [fontsLoaded] = useFonts({
     GrandHotel_400Regular,
   });
@@ -40,8 +65,7 @@ export default function Register() {
       .catch((error) => {
         const errorCode = error.code;
         const errorMessage = error.message;
-        console.log(errorCode);
-        console.log(errorMessage);
+        setError("Email already has an account");
       });
   };
 
@@ -76,10 +100,19 @@ export default function Register() {
         style={styles.inputAuth}
         placeholderTextColor={"white"}
       />
-      {/* <Button title="Sign Up" onPress={onSignUp} /> */}
       <TouchableOpacity onPress={onSignUp} style={styles.authBtn}>
         <Text style={[styles.textWhite, { fontSize: 18 }]}>Sign Up</Text>
       </TouchableOpacity>
+      {error && <Text style={{ color: "red", fontSize: 18 }}>{error}</Text>}
+      <View
+        style={{
+          left: 0,
+          right: 0,
+          bottom: 0,
+          height: keyboardSpace,
+          backgroundColor: "white",
+        }}
+      ></View>
     </SafeAreaView>
   );
 }

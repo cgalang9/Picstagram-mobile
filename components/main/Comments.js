@@ -7,7 +7,6 @@ import {
   StyleSheet,
   Button,
   TextInput,
-  KeyboardAvoidingView,
   Keyboard,
   Dimensions,
 } from "react-native";
