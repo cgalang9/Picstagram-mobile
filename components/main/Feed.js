@@ -8,37 +8,23 @@ import {
   Image,
   Dimensions,
   TouchableOpacity,
+  SafeAreaView,
 } from "react-native";
 import { useDispatch, useSelector } from "react-redux";
 import { getFeedPostsThunk } from "../../store/feedPosts";
 import { getUserFollowingThunk } from "../../store/following";
-
-const styles = StyleSheet.create({
-  wrapper: {
-    flex: 1,
-    alignItems: "center",
-    backgroundColor: "black",
-  },
-  postContianer: {
-    width: Dimensions.get("window").width,
-    marginBottom: 10,
-  },
-  image: {
-    aspectRatio: 1 / 1,
-  },
-  postHead: {
-    backgroundColor: "black",
-    color: "white",
-    padding: 15,
-    fontSize: 15,
-    fontWeight: "bold",
-  },
-});
+import {
+  useFonts,
+  GrandHotel_400Regular,
+} from "@expo-google-fonts/grand-hotel";
+import { wrapper, styles } from "../utils/styles";
+import { Feather } from "@expo/vector-icons";
 
 export default function Feed({ navigation }) {
   const followingArr = useSelector((state) => state.following);
   const posts = useSelector((state) => state.feedPosts);
   const dispatch = useDispatch();
+
   useEffect(() => {
     dispatch(getUserFollowingThunk());
   }, []);
@@ -46,17 +32,77 @@ export default function Feed({ navigation }) {
   useEffect(() => {
     if (followingArr.length > 0) dispatch(getFeedPostsThunk(followingArr));
   }, [followingArr]);
+
+  let [fontsLoaded] = useFonts({
+    GrandHotel_400Regular,
+  });
+
+  if (!fontsLoaded) {
+    return null;
+  }
+
   return (
-    <View style={styles.wrapper}>
-      <View style={styles.wrapper}>
+    <SafeAreaView style={wrapper.wrapper}>
+      <View style={styles.feedHead}>
+        <Text
+          style={{
+            fontFamily: "GrandHotel_400Regular",
+            fontSize: 40,
+            color: "white",
+          }}
+        >
+          Picstagram
+        </Text>
+        <Feather
+          name="plus-square"
+          color="white"
+          size={32}
+          style={{ paddingVertical: 10, paddingHorizontal: 15 }}
+          onPress={() => navigation.navigate("Add")}
+        />
+      </View>
+      <View style={wrapper.wrapper}>
         <FlatList
           numColumns={1}
           horizontal={false}
           data={posts}
           renderItem={({ item }) => (
             <View style={styles.postContianer}>
-              <Text style={styles.postHead}>{item.postedBy.name}</Text>
-              <Image source={{ uri: item.downloadURL }} style={styles.image} />
+              <View style={styles.postHeadContainer}>
+                <Image
+                  source={{
+                    uri: "https://upload.wikimedia.org/wikipedia/commons/9/99/Sample_User_Icon.png",
+                  }}
+                  style={styles.userIconPost}
+                />
+                <Text style={styles.postHead}>{item.postedBy.name}</Text>
+              </View>
+              <Image
+                source={{ uri: item.downloadURL }}
+                style={styles.postImage}
+              />
+              <View style={{ flexDirection: "row" }}>
+                <Text
+                  style={[
+                    styles.postHead,
+                    { paddingVertical: 10, paddingLeft: 15, paddingRight: 5 },
+                  ]}
+                >
+                  {item.postedBy.name}
+                </Text>
+                <Text
+                  style={[
+                    styles.postHead,
+                    {
+                      paddingVertical: 10,
+                      paddingHorizontal: 0,
+                      fontWeight: "350",
+                    },
+                  ]}
+                >
+                  {item.caption}
+                </Text>
+              </View>
               <TouchableOpacity
                 onPress={() => {
                   navigation.navigate("Comments", {
@@ -65,12 +111,16 @@ export default function Feed({ navigation }) {
                   });
                 }}
               >
-                <Text style={styles.postHead}>View Comments...</Text>
+                <Text
+                  style={{ fontSize: 15, color: "grey", paddingHorizontal: 15 }}
+                >
+                  View all comments...
+                </Text>
               </TouchableOpacity>
             </View>
           )}
         />
       </View>
-    </View>
+    </SafeAreaView>
   );
 }

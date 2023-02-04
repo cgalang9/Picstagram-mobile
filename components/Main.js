@@ -35,7 +35,7 @@ export default function Main({ navigation }) {
       initialRouteName="Feed"
       screenOptions={{
         tabBarActiveTintColor: "white",
-        tabBarStyle: { backgroundColor: "black" },
+        tabBarStyle: { backgroundColor: "black", borderTopWidth: 0 },
         tabBarShowLabel: false,
       }}
     >
@@ -46,6 +46,7 @@ export default function Main({ navigation }) {
           tabBarIcon: ({ color, size }) => (
             <Foundation name="home" color={color} size={32} />
           ),
+          headerShown: false,
         }}
       />
       <Tab.Screen

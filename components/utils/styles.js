@@ -1,4 +1,5 @@
 import { StyleSheet } from "react-native";
+import { Dimensions } from "react-native";
 
 const wrapper = StyleSheet.create({
   wrapper: {
@@ -33,6 +34,39 @@ const styles = StyleSheet.create({
     borderColor: "grey",
     marginBottom: 25,
     borderRadius: 5,
+  },
+  feedHead: {
+    width: Dimensions.get("window").width,
+    paddingVertical: 10,
+    paddingHorizontal: 15,
+    flexDirection: "row",
+    justifyContent: "space-between",
+  },
+  postContianer: {
+    width: Dimensions.get("window").width,
+    marginBottom: 10,
+  },
+  postHeadContainer: {
+    flexDirection: "row",
+    alignItems: "center",
+    paddingHorizontal: 10,
+    paddingVertical: 5,
+  },
+  userIconPost: {
+    aspectRatio: 1 / 1,
+    height: 30,
+    borderRadius: 20,
+    backgroundColor: "white",
+  },
+  postImage: {
+    aspectRatio: 1 / 1,
+  },
+  postHead: {
+    backgroundColor: "black",
+    color: "white",
+    padding: 15,
+    fontSize: 15,
+    fontWeight: "bold",
   },
 });
 
