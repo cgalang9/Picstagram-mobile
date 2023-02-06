@@ -68,6 +68,36 @@ const styles = StyleSheet.create({
     fontSize: 15,
     fontWeight: "bold",
   },
+  searchInputContainer: {
+    color: "white",
+    padding: 10,
+    borderRadius: 5,
+    backgroundColor: "grey",
+    width: "90%",
+    flexDirection: "row",
+    alignItems: "center",
+    fontSize: 18,
+    marginTop: 20,
+  },
+  searchInput: {
+    fontSize: 16,
+    paddingLeft: 8,
+    width: "100%",
+    color: "white",
+  },
+  searchItem: {
+    padding: 10,
+    flexDirection: "row",
+    alignItems: "center",
+    justifySelf: "flex-start",
+  },
+  searchUserIcon: {
+    aspectRatio: 1 / 1,
+    borderRadius: 20,
+    backgroundColor: "white",
+    width: 40,
+    marginLeft: 20,
+  },
 });
 
 export { wrapper, styles };

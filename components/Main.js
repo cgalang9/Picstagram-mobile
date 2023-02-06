@@ -56,6 +56,7 @@ export default function Main({ navigation }) {
           tabBarIcon: ({ color, size }) => (
             <Ionicons name="search" color={color} size={32} />
           ),
+          headerShown: false,
         }}
       />
       <Tab.Screen

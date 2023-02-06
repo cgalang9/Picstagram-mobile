@@ -4,21 +4,15 @@ import {
   Text,
   TextInput,
   FlatList,
-  StyleSheet,
+  SafeAreaView,
   TouchableOpacity,
+  Dimensions,
+  Image,
 } from "react-native";
 import { collection, query, where, getDocs } from "firebase/firestore";
 import { db } from "../../App";
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    padding: 20,
-  },
-  searchItem: {
-    padding: 10,
-  },
-});
+import { wrapper, styles } from "../utils/styles";
+import { Feather } from "@expo/vector-icons";
 
 export default function Search({ navigation }) {
   const [users, setUsers] = useState([]);
@@ -35,11 +29,16 @@ export default function Search({ navigation }) {
   };
 
   return (
-    <View style={styles.container}>
-      <TextInput
-        placeholder="Type Here"
-        onChangeText={(search) => fetchUsers(search)}
-      />
+    <SafeAreaView style={wrapper.wrapper}>
+      <View style={styles.searchInputContainer}>
+        <Feather name="search" color="white" size={18} />
+        <TextInput
+          placeholder="Search"
+          onChangeText={(search) => fetchUsers(search)}
+          style={styles.searchInput}
+          placeholderTextColor={"white"}
+        />
+      </View>
       <FlatList
         data={users}
         numColumns={1}
@@ -47,6 +46,7 @@ export default function Search({ navigation }) {
         renderItem={({ item }) => {
           return (
             <TouchableOpacity
+              horizontal={false}
               style={styles.searchItem}
               onPress={() =>
                 navigation.navigate("Profile", {
@@ -56,7 +56,20 @@ export default function Search({ navigation }) {
                 })
               }
             >
-              <Text>{item.name}</Text>
+              <Image
+                source={{
+                  uri: "https://upload.wikimedia.org/wikipedia/commons/9/99/Sample_User_Icon.png",
+                }}
+                style={styles.searchUserIcon}
+              />
+              <Text
+                style={[
+                  styles.postHead,
+                  { width: Dimensions.get("window").width * 0.7 },
+                ]}
+              >
+                {item.name}
+              </Text>
             </TouchableOpacity>
           );
         }}
@@ -64,6 +77,6 @@ export default function Search({ navigation }) {
           item.id.toString();
         }}
       />
-    </View>
+    </SafeAreaView>
   );
 }
