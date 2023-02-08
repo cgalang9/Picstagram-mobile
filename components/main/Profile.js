@@ -1,5 +1,12 @@
 import React, { useEffect, useState } from "react";
-import { View, Text, Image, FlatList, StyleSheet, Button } from "react-native";
+import {
+  View,
+  Text,
+  Image,
+  FlatList,
+  SafeAreaView,
+  Button,
+} from "react-native";
 import { useDispatch, useSelector } from "react-redux";
 import { getAuth } from "firebase/auth";
 import { db } from "../../App";
@@ -16,44 +23,7 @@ import {
 import { getUserFollowingThunk } from "../../store/following";
 import { logOutThunk } from "../../store/user";
 import { getUserPostsThunk } from "../../store/userPosts";
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: "black",
-  },
-  infoContainer: {
-    margin: 20,
-    flexDirection: "row",
-  },
-  infoContainerName: {
-    flex: 1,
-  },
-  infoContainerCol: {
-    paddingHorizontal: 5,
-    flex: 1,
-    alignItems: "center",
-  },
-  galleryContainer: {
-    flex: 1,
-  },
-  image: {
-    flex: 1,
-    aspectRatio: 1 / 1,
-  },
-  containerImage: {
-    flex: 1 / 3,
-  },
-  text: {
-    color: "white",
-  },
-  followBtn: {
-    backgroundColor: "#1DA1F2",
-    padding: 3,
-    borderRadius: 5,
-    marginTop: 10,
-  },
-});
+import { styles } from "../utils/styles";
 
 export default function Profile({ route, navigation }) {
   const dispatch = useDispatch();
@@ -91,7 +61,7 @@ export default function Profile({ route, navigation }) {
   }, [route]);
 
   useEffect(() => {
-    dispatch(getUserFollowingThunk());
+    dispatch(getUserFollowingThunk(route.params.uid));
   }, [route]);
 
   useEffect(() => {
@@ -135,42 +105,51 @@ export default function Profile({ route, navigation }) {
   }
 
   return (
-    <View style={styles.container}>
+    <SafeAreaView style={styles.container}>
       <View style={styles.infoContainer}>
         <View style={styles.infoContainerName}>
-          <Text style={styles.text}>{user.name}</Text>
-          <Text style={styles.text}>{user.email}</Text>
-          {route.params.uid !== currUser.uid ? (
-            <View style={styles.followBtn}>
-              {following ? (
-                <Button
-                  color="white"
-                  title="Following"
-                  onPress={() => onUnfollow()}
-                />
-              ) : (
-                <Button
-                  color="white"
-                  title="Follow"
-                  onPress={() => onFollow()}
-                />
-              )}
-            </View>
-          ) : (
-            <View style={styles.followBtn}>
-              <Button
-                color="white"
-                title="Sign out"
-                onPress={() => dispatch(logOutThunk())}
-              />
-            </View>
-          )}
+          <Image
+            source={{
+              uri: "https://upload.wikimedia.org/wikipedia/commons/9/99/Sample_User_Icon.png",
+            }}
+            style={styles.profileUserIcon}
+          />
+          <Text style={styles.infoName}>{user.name}</Text>
         </View>
         <View style={styles.infoContainerCol}>
-          <Text style={styles.text}>{userPosts.length}</Text>
-          <Text style={styles.text}>Posts</Text>
+          <Text style={[styles.infoContainerColText, { fontWeight: "bold" }]}>
+            {userPosts.length}
+          </Text>
+          <Text style={styles.infoContainerColText}>Posts</Text>
+        </View>
+        <View style={styles.infoContainerCol}>
+          <Text style={[styles.infoContainerColText, { fontWeight: "bold" }]}>
+            {followingArr.length}
+          </Text>
+          <Text style={styles.infoContainerColText}>Following</Text>
         </View>
       </View>
+      {route.params.uid !== currUser.uid ? (
+        <View style={styles.followBtn}>
+          {following ? (
+            <Button
+              color="white"
+              title="Following"
+              onPress={() => onUnfollow()}
+            />
+          ) : (
+            <Button color="white" title="Follow" onPress={() => onFollow()} />
+          )}
+        </View>
+      ) : (
+        <View style={styles.followBtn}>
+          <Button
+            color="white"
+            title="Sign out"
+            onPress={() => dispatch(logOutThunk())}
+          />
+        </View>
+      )}
       <View style={styles.galleryContainer}>
         <FlatList
           numColumns={3}
@@ -191,6 +170,6 @@ export default function Profile({ route, navigation }) {
           }}
         />
       </View>
-    </View>
+    </SafeAreaView>
   );
 }

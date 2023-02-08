@@ -21,11 +21,12 @@ import { Feather } from "@expo/vector-icons";
 export default function Feed({ navigation }) {
   const followingArr = useSelector((state) => state.following);
   const posts = useSelector((state) => state.feedPosts);
+  const currUser = useSelector((state) => state.user.currUser);
   const dispatch = useDispatch();
 
   useEffect(() => {
-    dispatch(getUserFollowingThunk());
-  }, []);
+    if (currUser) dispatch(getUserFollowingThunk(currUser.uid));
+  }, [currUser]);
 
   useEffect(() => {
     if (followingArr.length > 0) dispatch(getFeedPostsThunk(followingArr));

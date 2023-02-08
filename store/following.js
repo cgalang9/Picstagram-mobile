@@ -9,12 +9,12 @@ const getUserFollowing = (following) => ({
   following: following,
 });
 
-export const getUserFollowingThunk = () => async (dispatch) => {
+export const getUserFollowingThunk = (uid) => async (dispatch) => {
   const auth = getAuth();
   const user = auth.currentUser;
   if (!user) return console.log(" No user is signed in");
 
-  const docRef = collection(db, "following/" + user.uid + "/userFollowing/");
+  const docRef = collection(db, "following/" + uid + "/userFollowing/");
 
   const q = query(docRef);
 

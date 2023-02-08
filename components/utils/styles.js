@@ -98,6 +98,57 @@ const styles = StyleSheet.create({
     width: 40,
     marginLeft: 20,
   },
+  container: {
+    flex: 1,
+    backgroundColor: "black",
+  },
+  infoContainer: {
+    margin: 20,
+    flexDirection: "row",
+    alignItems: "center",
+  },
+  infoContainerName: {
+    flex: 1,
+  },
+  infoContainerCol: {
+    paddingHorizontal: 5,
+    flex: 1,
+    alignItems: "center",
+  },
+  infoContainerColText: {
+    color: "white",
+    fontSize: 16,
+    fontFamily: "Arial",
+  },
+  galleryContainer: {
+    flex: 1,
+  },
+  image: {
+    flex: 1,
+    aspectRatio: 1 / 1,
+  },
+  containerImage: {
+    flex: 1 / 3,
+  },
+  infoName: {
+    color: "white",
+    paddingVertical: 12,
+    fontWeight: "bold",
+    fontSize: 16,
+  },
+  followBtn: {
+    backgroundColor: "#1DA1F2",
+    borderRadius: 5,
+    marginHorizontal: 15,
+    marginBottom: 25,
+    width: 150,
+  },
+  profileUserIcon: {
+    aspectRatio: 1 / 1,
+    borderRadius: 80,
+    backgroundColor: "white",
+    width: 80,
+  },
 });
 
 export { wrapper, styles };

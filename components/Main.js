@@ -85,6 +85,7 @@ export default function Main({ navigation }) {
               size={32}
             />
           ),
+          headerShown: false,
         }}
         listeners={({ navigation }) => ({
           tabPress: (e) => {
