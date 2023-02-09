@@ -9,14 +9,16 @@ import {
   Image,
 } from "react-native";
 import * as ImagePicker from "expo-image-picker";
-import { NavigationHelpersContext } from "@react-navigation/native";
+
 import Ionicons from "react-native-vector-icons/Ionicons";
+import Octicons from "react-native-vector-icons/Octicons";
+import FontAwesome5 from "react-native-vector-icons/FontAwesome5";
 
 export default function Add({ navigation }) {
   const [type, setType] = useState(CameraType.back);
   const [permission, requestPermission] = Camera.useCameraPermissions();
   const [camera, setCamera] = useState(null);
-  const [imageUri, setImageUri] = useState(null);
+  // const [imageUri, setImageUri] = useState(null);
   const [image, setImage] = useState(null);
 
   if (!permission) {
@@ -43,20 +45,19 @@ export default function Add({ navigation }) {
       allowsEditing: true,
       aspect: [4, 3],
       quality: 1,
+    }).then((result) => {
+      if (!result.canceled) {
+        const imageUri = result.assets[0].uri;
+        navigation.navigate("Save", { imageUri });
+      }
     });
-
-    console.log(result);
-
-    if (!result.canceled) {
-      setImage(result.assets[0].uri);
-    }
   };
 
   const takePicture = async () => {
     if (camera) {
       const data = await camera.takePictureAsync(null);
-      console.log(data.uri);
-      setImageUri(data.uri);
+      const imageUri = data.uri;
+      navigation.navigate("Save", { imageUri });
     }
   };
 
@@ -74,25 +75,25 @@ export default function Add({ navigation }) {
         ratio={"1:1"}
         ref={(ref) => setCamera(ref)}
       >
-        <View style={{ flex: 1, padding: 15 }}>
-          <TouchableOpacity style={styles.button} onPress={toggleCameraType}>
-            <Ionicons name="camera-reverse" color="white" size={32} />
-          </TouchableOpacity>
-        </View>
         <View style={styles.buttonContainer}>
+          <TouchableOpacity
+            onPress={pickImage}
+            style={{ alignItems: "center" }}
+          >
+            <FontAwesome5 name="images" color="white" size={35} />
+          </TouchableOpacity>
           <TouchableOpacity
             onPress={takePicture}
             style={{ alignItems: "center" }}
           >
-            <Text style={styles.text}>Take Pic</Text>
+            <Octicons name="dot-fill" color="white" size={150} />
           </TouchableOpacity>
-          <Button title="Pick an image from camera roll" onPress={pickImage} />
-          <Button
-            title="Save"
-            onPress={() => navigation.navigate("Save", { imageUri })}
-          />
+          <View style={styles.galleryBtn}>
+            <TouchableOpacity onPress={toggleCameraType}>
+              <Ionicons name="camera-reverse" color="white" size={35} />
+            </TouchableOpacity>
+          </View>
         </View>
-        {imageUri && <Image source={{ uri: imageUri }} style={{ flex: 1 }} />}
       </Camera>
     </View>
   );
@@ -106,9 +107,13 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   buttonContainer: {
-    flex: 1,
-    justifyContent: "flex-end",
-    marginBottom: 30,
+    alignItems: "center",
+    alignSelf: "center",
+    position: "absolute",
+    bottom: 10,
+    justifyContent: "space-around",
+    width: "100%",
+    flexDirection: "row",
   },
   button: {
     flex: 1,

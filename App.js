@@ -101,6 +101,7 @@ export default function App() {
               headerTransparent: true,
               headerTintColor: "white",
               title: "",
+              headerBackTitleVisible: false,
             })}
           />
           <Stack.Screen
@@ -128,12 +129,22 @@ export default function App() {
           <Stack.Screen
             name="Add"
             component={Add}
-            // options={{ headerShown: false }}
+            options={({ navigation }) => ({
+              headerTransparent: true,
+              headerTintColor: "white",
+              title: "",
+              headerBackTitleVisible: false,
+            })}
           />
           <Stack.Screen
             name="Save"
             component={Save}
-            // options={{ headerShown: false }}
+            options={({ navigation }) => ({
+              headerTransparent: true,
+              headerTintColor: "white",
+              title: "",
+              headerBackTitleVisible: false,
+            })}
           />
           <Stack.Screen
             name="Comments"

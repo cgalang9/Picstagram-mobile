@@ -9,7 +9,15 @@ const styles = StyleSheet.create({
   wrapper: {
     flex: 1,
     alignItems: "center",
-    marginTop: 100,
+    justifyContent: "center",
+  },
+  image: {
+    aspectRatio: 2 / 3,
+    flex: 1,
+    alignItems: "center",
+  },
+  input: {
+    height: 50,
   },
 });
 
@@ -68,8 +76,13 @@ export default function Save({ route, navigation }) {
   };
   return (
     <View style={styles.wrapper}>
-      <Image source={{ uri: imageUri }} />
+      <Image
+        source={{ uri: imageUri }}
+        style={styles.image}
+        resizeMode="cover"
+      />
       <TextInput
+        style={styles.input}
         placeholder="Write a Caption..."
         onChangeText={(caption) => setCaption(caption)}
       />
