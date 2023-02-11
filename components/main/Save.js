@@ -1,5 +1,14 @@
-import React, { useState } from "react";
-import { View, TextInput, Image, Button, StyleSheet } from "react-native";
+import React, { useState, useEffect } from "react";
+import {
+  View,
+  TextInput,
+  Image,
+  TouchableOpacity,
+  Text,
+  StyleSheet,
+  Keyboard,
+  Dimensions,
+} from "react-native";
 import { ref, uploadBytesResumable, getDownloadURL } from "firebase/storage";
 import { storage, db } from "../../App";
 import { useSelector } from "react-redux";
@@ -17,15 +26,59 @@ const styles = StyleSheet.create({
     alignItems: "center",
   },
   input: {
-    height: 50,
+    marginHorizontal: 15,
+    padding: 15,
+    fontSize: 15,
+    width: "70%",
+    borderRadius: 5,
+    backgroundColor: "lightgrey",
+  },
+  btnWrapper: {
+    flexDirection: "row",
+    alignItems: "center",
+    position: "absolute",
+    // bottom: 0,
+    paddingVertical: 35,
+    backgroundColor: "white",
+    width: "100%",
+  },
+  authBtn: {
+    justifyContent: "center",
+    backgroundColor: "#405DE6",
+    padding: 12,
+    marginVertical: 12,
+    alignItems: "center",
+    borderRadius: 5,
+  },
+  textWhite: {
+    color: "white",
+    fontFamily: "Farah",
   },
 });
 
 export default function Save({ route, navigation }) {
   const { imageUri } = route.params;
   const [caption, setCaption] = useState("");
+  const [keyboardSpace, setKeyboardSpace] = useState(0);
   const user = useSelector((state) => state.user.currUser);
 
+  useEffect(() => {
+    const listenerShow = Keyboard.addListener("keyboardDidShow", (e) => {
+      const screenHeight = Dimensions.get("window").height;
+      const endY = e.endCoordinates.screenY;
+      console.log(screenHeight, endY, "bbbb", screenHeight - endY - 100);
+      setKeyboardSpace(screenHeight - endY);
+    });
+    const listenerHide = Keyboard.addListener("keyboardDidHide", () => {
+      setKeyboardSpace(0);
+    });
+    return () => {
+      listenerHide.remove();
+      listenerShow.remove();
+    };
+  }, []);
+
+  console.log(keyboardSpace);
   const uplaodImage = async () => {
     const res = await fetch(imageUri);
     const blob = await res.blob();
@@ -74,6 +127,7 @@ export default function Save({ route, navigation }) {
       }
     );
   };
+
   return (
     <View style={styles.wrapper}>
       <Image
@@ -81,12 +135,16 @@ export default function Save({ route, navigation }) {
         style={styles.image}
         resizeMode="cover"
       />
-      <TextInput
-        style={styles.input}
-        placeholder="Write a Caption..."
-        onChangeText={(caption) => setCaption(caption)}
-      />
-      <Button title="Save" onPress={() => uplaodImage()} />
+      <View style={[styles.btnWrapper, { bottom: keyboardSpace }]}>
+        <TextInput
+          style={styles.input}
+          placeholder="Write a Caption..."
+          onChangeText={(caption) => setCaption(caption)}
+        />
+        <TouchableOpacity onPress={() => uplaodImage()} style={styles.authBtn}>
+          <Text style={[styles.textWhite, { fontSize: 18 }]}>Save</Text>
+        </TouchableOpacity>
+      </View>
     </View>
   );
 }
