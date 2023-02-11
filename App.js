@@ -149,7 +149,13 @@ export default function App() {
           <Stack.Screen
             name="Comments"
             component={Comments}
-            // options={{ headerShown: false }}
+            options={({ navigation }) => ({
+              headerStyle: {
+                backgroundColor: "black",
+              },
+              headerTintColor: "white",
+              headerBackTitleVisible: false,
+            })}
           />
         </Stack.Navigator>
       </NavigationContainer>

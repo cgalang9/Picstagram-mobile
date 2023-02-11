@@ -107,6 +107,7 @@ export default function Feed({ navigation }) {
                   navigation.navigate("Comments", {
                     postId: item.id,
                     postedBy: item.postedBy,
+                    text: item.caption,
                   });
                 }}
               >

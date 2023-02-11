@@ -4,84 +4,33 @@ import {
   Text,
   Image,
   FlatList,
-  StyleSheet,
-  Button,
   TextInput,
   Keyboard,
   Dimensions,
+  TouchableOpacity,
 } from "react-native";
-
-import {
-  collection,
-  addDoc,
-  serverTimestamp,
-  getDocs,
-  query,
-} from "firebase/firestore";
-import { getAuth } from "firebase/auth";
-import { db } from "../../App";
 
 import { addCommentThunk } from "../../store/comments";
 import { getCommentsThunk } from "../../store/comments";
 import { useDispatch, useSelector } from "react-redux";
-
-const styles = StyleSheet.create({
-  wrapper: {
-    flex: 1,
-    alignItems: "center",
-    backgroundColor: "black",
-    color: "white",
-  },
-  text: {
-    color: "white",
-  },
-  textInput: {
-    borderWidth: 1,
-    borderStyle: "solid",
-    borderColor: "white",
-    borderRadius: 15,
-    padding: 10,
-    color: "white",
-  },
-  comment: {
-    flex: 1,
-    flexDirection: "row",
-    justifyContent: "space-between",
-    fontSize: 20,
-    padding: 10,
-  },
-  commentName: {
-    color: "white",
-    paddingRight: 10,
-    fontSize: 20,
-  },
-  commentText: {
-    color: "white",
-    fontSize: 20,
-  },
-  inputContainer: {
-    flex: 1,
-    alignItems: "center",
-    justifyContent: "flex-end",
-    backgroundColor: "black",
-    color: "white",
-  },
-});
+import { wrapper, styles } from "../utils/styles";
 
 function Comments({ route, navigation }) {
   const dispatch = useDispatch();
   const [comments, setComments] = useState([]);
   const [keyboardSpace, setKeyboardSpace] = useState(0);
   const [text, setText] = useState([]);
+  const [listRef, setListRef] = useState(null);
 
   const commentsArr = useSelector((state) => state.comments);
   const currUser = useSelector((state) => state.user.currUser);
-  console.log(currUser);
 
   useEffect(() => {
-    // if (route.params.postId !== postId) {
-    // }
-    setComments(commentsArr);
+    let posterComment = {
+      postedBy: route.params.postedBy,
+      text: route.params.text,
+    };
+    setComments([posterComment, ...commentsArr]);
   }, [commentsArr]);
 
   useEffect(() => {
@@ -104,15 +53,24 @@ function Comments({ route, navigation }) {
   }, []);
 
   return (
-    <View style={styles.wrapper}>
+    <View style={wrapper.comments}>
       <FlatList
+        ref={(ref) => setListRef(ref)}
         numColumns={1}
         horizontal={false}
         data={comments}
         renderItem={({ item }) => (
           <View style={styles.comment}>
-            <Text style={styles.commentName}>{item.postedBy.name}</Text>
-            <Text style={styles.commentText}>{item.text}</Text>
+            <Image
+              source={{
+                uri: "https://upload.wikimedia.org/wikipedia/commons/9/99/Sample_User_Icon.png",
+              }}
+              style={styles.userIconComment}
+            />
+            <View>
+              <Text style={styles.commentName}>{item.postedBy.name}</Text>
+              <Text style={styles.commentText}>{item.text}</Text>
+            </View>
           </View>
         )}
       />
@@ -122,10 +80,11 @@ function Comments({ route, navigation }) {
           onChangeText={(text) => setText(text)}
           style={styles.textInput}
           placeholderTextColor="white"
+          value={text}
         />
-        <Button
-          title="Post"
-          onPress={() => {
+        <TouchableOpacity
+          onPress={async () => {
+            setScrollEnd(true);
             dispatch(
               addCommentThunk(
                 route.params.postedBy.uid,
@@ -133,16 +92,22 @@ function Comments({ route, navigation }) {
                 text,
                 currUser
               )
-            );
+            ).then(() => {
+              setText("");
+              listRef.scrollToEnd();
+            });
           }}
-        />
+          style={styles.postCommentBtn}
+        >
+          <Text style={[styles.textWhite, { fontSize: 18 }]}>Post</Text>
+        </TouchableOpacity>
       </View>
       <View
         style={{
           left: 0,
           right: 0,
           bottom: 0,
-          height: keyboardSpace,
+          height: keyboardSpace - 40,
           backgroundColor: "white",
         }}
       ></View>

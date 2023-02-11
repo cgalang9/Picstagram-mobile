@@ -8,6 +8,11 @@ const wrapper = StyleSheet.create({
     alignItems: "center",
     backgroundColor: "black",
   },
+  comments: {
+    flex: 1,
+    backgroundColor: "black",
+    color: "white",
+  },
 });
 
 const styles = StyleSheet.create({
@@ -148,6 +153,67 @@ const styles = StyleSheet.create({
     borderRadius: 80,
     backgroundColor: "white",
     width: 80,
+  },
+  text: {
+    color: "white",
+  },
+  textInput: {
+    borderWidth: 1,
+    borderStyle: "solid",
+    borderColor: "white",
+    borderRadius: 15,
+    padding: 10,
+    color: "white",
+    height: 50,
+    width: "70%",
+  },
+  comment: {
+    flex: 1,
+    flexDirection: "row",
+    fontSize: 20,
+    padding: 10,
+    marginVertical: 7,
+  },
+  commentName: {
+    color: "white",
+    paddingHorizontal: 10,
+    fontSize: 15,
+    fontWeight: "bold",
+    paddingBottom: 3,
+  },
+  commentText: {
+    color: "white",
+    paddingHorizontal: 10,
+    fontSize: 17,
+    fontFamily: "Farah",
+  },
+  inputContainer: {
+    flex: 1,
+    flexDirection: "row",
+    alignItems: "center",
+    bottom: 0,
+    width: "100%",
+    paddingBottom: 70,
+    paddingTop: 40,
+    backgroundColor: "black",
+    color: "white",
+  },
+  userIconComment: {
+    aspectRatio: 1 / 1,
+    height: 40,
+    borderRadius: 20,
+    backgroundColor: "white",
+  },
+  postCommentBtn: {
+    justifyContent: "center",
+    backgroundColor: "#405DE6",
+    paddingVertical: 12,
+    marginVertical: 12,
+    alignItems: "center",
+    width: "20%",
+    marginLeft: "5%",
+    borderRadius: 5,
+    height: 50,
   },
 });
 

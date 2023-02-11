@@ -23,7 +23,7 @@ export const getCommentsThunk = (uid, postId) => async (dispatch) => {
   let commentsArr = [];
 
   const docR = collection(db, "posts", uid, "userPosts", postId, "comments");
-  const q = query(docR, orderBy("created", "desc"));
+  const q = query(docR, orderBy("created"));
   const querySnapshot = await getDocs(q);
   querySnapshot.forEach((doc) => {
     // doc.data() is never undefined for query doc snapshots
