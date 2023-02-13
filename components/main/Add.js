@@ -1,13 +1,6 @@
 import { Camera, CameraType } from "expo-camera";
 import { useState } from "react";
-import {
-  Button,
-  StyleSheet,
-  Text,
-  TouchableOpacity,
-  View,
-  Image,
-} from "react-native";
+import { Button, StyleSheet, Text, TouchableOpacity, View } from "react-native";
 import * as ImagePicker from "expo-image-picker";
 
 import Ionicons from "react-native-vector-icons/Ionicons";

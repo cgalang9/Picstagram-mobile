@@ -22,6 +22,7 @@ export const getFeedPostsThunk = (following) => async (dispatch) => {
 
     querySnapshot.forEach((doc) => {
       // doc.data() is never undefined for query doc snapshots
+      console.log(doc.data());
       posts.push({ ...doc.data(), id: doc.id });
     });
   }

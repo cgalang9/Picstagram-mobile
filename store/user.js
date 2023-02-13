@@ -1,4 +1,4 @@
-import { doc, getDoc } from "firebase/firestore";
+import { doc, getDoc, updateDoc } from "firebase/firestore";
 import { getAuth, signOut } from "firebase/auth";
 import { db } from "../App";
 
@@ -25,6 +25,26 @@ export const getUserThunk = () => async (dispatch) => {
   }
 };
 
+//change profile pic
+const CHANGE_PIC = "user/CHANGE_PIC";
+const changePic = (picUri) => ({
+  type: CHANGE_PIC,
+  pic: picUri,
+});
+
+export const changePicThunk = (picUri) => async (dispatch) => {
+  const auth = getAuth();
+  const user = auth.currentUser;
+  if (!user) return console.log(" No user is signed in");
+
+  const docRef = doc(db, "users", user.uid);
+  await updateDoc(docRef, {
+    pic: picUri,
+  }).then(() => {
+    dispatch(changePic(picUri));
+  });
+};
+
 //logout
 const LOG_OUT = "user/SET_USER";
 const logOut = () => ({
@@ -49,6 +69,10 @@ export default function reducer(state = initialState, action) {
       return { currUser: action.currUser };
     case LOG_OUT:
       return { currUser: null };
+    case CHANGE_PIC:
+      const newState = { ...state };
+      state.currUser.pic = action.pic;
+      return newState;
     default:
       return state;
   }

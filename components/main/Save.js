@@ -78,7 +78,6 @@ export default function Save({ route, navigation }) {
     };
   }, []);
 
-  console.log(keyboardSpace);
   const uplaodImage = async () => {
     const res = await fetch(imageUri);
     const blob = await res.blob();

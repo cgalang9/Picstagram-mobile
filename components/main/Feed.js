@@ -70,7 +70,9 @@ export default function Feed({ navigation }) {
               <View style={styles.postHeadContainer}>
                 <Image
                   source={{
-                    uri: "https://upload.wikimedia.org/wikipedia/commons/9/99/Sample_User_Icon.png",
+                    uri:
+                      item.postedBy.pic ||
+                      "https://upload.wikimedia.org/wikipedia/commons/9/99/Sample_User_Icon.png",
                   }}
                   style={styles.userIconPost}
                 />

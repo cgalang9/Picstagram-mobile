@@ -5,11 +5,10 @@ import {
   Image,
   FlatList,
   SafeAreaView,
-  Button,
+  TouchableOpacity,
 } from "react-native";
 import { useDispatch, useSelector } from "react-redux";
 import { getAuth } from "firebase/auth";
-import { db } from "../../App";
 import {
   collection,
   getDocs,
@@ -24,6 +23,10 @@ import { getUserFollowingThunk } from "../../store/following";
 import { logOutThunk } from "../../store/user";
 import { getUserPostsThunk } from "../../store/userPosts";
 import { styles } from "../utils/styles";
+import * as ImagePicker from "expo-image-picker";
+import { changePicThunk } from "../../store/user";
+import { ref, uploadBytesResumable, getDownloadURL } from "firebase/storage";
+import { storage, db } from "../../App";
 
 export default function Profile({ route, navigation }) {
   const dispatch = useDispatch();
@@ -100,20 +103,84 @@ export default function Profile({ route, navigation }) {
     setFollowing(false);
   };
 
+  const pickImage = async () => {
+    // No permissions request is necessary for launching the image library
+    let result = await ImagePicker.launchImageLibraryAsync({
+      mediaTypes: ImagePicker.MediaTypeOptions.Image,
+      allowsEditing: true,
+      aspect: [4, 3],
+      quality: 1,
+    }).then((result) => {
+      if (!result.canceled) {
+        const imageUri = result.assets[0].uri;
+        uplaodImage(imageUri);
+      }
+    });
+  };
+
+  const uplaodImage = async (imageUri) => {
+    const res = await fetch(imageUri);
+    const blob = await res.blob();
+    const storageRef = ref(
+      storage,
+      `posts/${user.uid}/${Math.random().toString(36)}`
+    );
+
+    const uploadTask = uploadBytesResumable(storageRef, blob);
+
+    uploadTask.on(
+      "state_changed",
+      (snapshot) => {
+        // Observe state change events such as progress, pause, and resume
+        // Get task progress, including the number of bytes uploaded and the total number of bytes to be uploaded
+        const progress =
+          (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
+        console.log("Upload is " + progress + "% done");
+        switch (snapshot.state) {
+          case "paused":
+            console.log("Upload is paused");
+            break;
+          case "running":
+            console.log("Upload is running");
+            break;
+        }
+      },
+      (error) => {
+        // Handle unsuccessful uploads
+        console.log(error);
+      },
+      () => {
+        // Handle successful uploads on complete
+        // For instance, get the download URL: https://firebasestorage.googleapis.com/...
+        getDownloadURL(uploadTask.snapshot.ref).then((downloadURL) => {
+          console.log("File available at", downloadURL);
+          dispatch(changePicThunk(downloadURL));
+        });
+      }
+    );
+  };
+
   if (!user) {
     return <View></View>;
   }
 
+  console.log(user.pic);
   return (
     <SafeAreaView style={styles.container}>
       <View style={styles.infoContainer}>
         <View style={styles.infoContainerName}>
-          <Image
-            source={{
-              uri: "https://upload.wikimedia.org/wikipedia/commons/9/99/Sample_User_Icon.png",
-            }}
-            style={styles.profileUserIcon}
-          />
+          <View>
+            {user && (
+              <Image
+                source={{
+                  uri:
+                    user.pic ||
+                    "https://upload.wikimedia.org/wikipedia/commons/9/99/Sample_User_Icon.png",
+                }}
+                style={styles.profileUserIcon}
+              />
+            )}
+          </View>
           <Text style={styles.infoName}>{user.name}</Text>
         </View>
         <View style={styles.infoContainerCol}>
@@ -129,25 +196,38 @@ export default function Profile({ route, navigation }) {
           <Text style={styles.infoContainerColText}>Following</Text>
         </View>
       </View>
+
       {route.params.uid !== currUser.uid ? (
-        <View style={styles.followBtn}>
+        <View>
           {following ? (
-            <Button
-              color="white"
-              title="Following"
+            <TouchableOpacity
+              style={styles.followBtn}
               onPress={() => onUnfollow()}
-            />
+            >
+              <Text style={{ fontSize: 15, color: "white" }}>Following</Text>
+            </TouchableOpacity>
           ) : (
-            <Button color="white" title="Follow" onPress={() => onFollow()} />
+            <TouchableOpacity
+              style={styles.followBtn}
+              onPress={() => onFollow()}
+            >
+              <Text style={{ fontSize: 15, color: "white" }}>Follow</Text>
+            </TouchableOpacity>
           )}
         </View>
       ) : (
-        <View style={styles.followBtn}>
-          <Button
-            color="white"
-            title="Sign out"
+        <View style={{ flexDirection: "row", justifyContent: "center" }}>
+          <TouchableOpacity
+            style={styles.followBtn}
             onPress={() => dispatch(logOutThunk())}
-          />
+          >
+            <Text style={{ fontSize: 15, color: "white" }}>Sign out</Text>
+          </TouchableOpacity>
+          <TouchableOpacity style={styles.followBtn} onPress={pickImage}>
+            <Text style={{ fontSize: 15, color: "white" }}>
+              Edit Profile Picture
+            </Text>
+          </TouchableOpacity>
         </View>
       )}
       <View style={styles.galleryContainer}>

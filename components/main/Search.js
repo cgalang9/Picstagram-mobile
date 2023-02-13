@@ -58,7 +58,9 @@ export default function Search({ navigation }) {
             >
               <Image
                 source={{
-                  uri: "https://upload.wikimedia.org/wikipedia/commons/9/99/Sample_User_Icon.png",
+                  uri:
+                    item.pic ||
+                    "https://upload.wikimedia.org/wikipedia/commons/9/99/Sample_User_Icon.png",
                 }}
                 style={styles.searchUserIcon}
               />

@@ -59,11 +59,16 @@ function Comments({ route, navigation }) {
         numColumns={1}
         horizontal={false}
         data={comments}
+        style={{
+          height: 300 - keyboardSpace,
+        }}
         renderItem={({ item }) => (
           <View style={styles.comment}>
             <Image
               source={{
-                uri: "https://upload.wikimedia.org/wikipedia/commons/9/99/Sample_User_Icon.png",
+                uri:
+                  item.postedBy.pic ||
+                  "https://upload.wikimedia.org/wikipedia/commons/9/99/Sample_User_Icon.png",
               }}
               style={styles.userIconComment}
             />
@@ -84,7 +89,6 @@ function Comments({ route, navigation }) {
         />
         <TouchableOpacity
           onPress={async () => {
-            setScrollEnd(true);
             dispatch(
               addCommentThunk(
                 route.params.postedBy.uid,
