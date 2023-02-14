@@ -1,4 +1,3 @@
-import { async } from "@firebase/util";
 import React, { useEffect } from "react";
 import {
   View,
@@ -29,8 +28,8 @@ export default function Feed({ navigation }) {
   }, [currUser]);
 
   useEffect(() => {
-    if (followingArr.length > 0) dispatch(getFeedPostsThunk(followingArr));
-  }, [followingArr]);
+    dispatch(getFeedPostsThunk(followingArr));
+  }, [followingArr, currUser]);
 
   let [fontsLoaded] = useFonts({
     GrandHotel_400Regular,
@@ -76,21 +75,51 @@ export default function Feed({ navigation }) {
                   }}
                   style={styles.userIconPost}
                 />
-                <Text style={styles.postHead}>{item.postedBy.name}</Text>
+                <TouchableOpacity
+                  onPress={() =>
+                    navigation.navigate("Profile", {
+                      uid: item.postedBy.uid,
+                      name: item.postedBy.name,
+                      email: item.postedBy.email,
+                      pic: item.postedBy.pic,
+                    })
+                  }
+                >
+                  <Text style={styles.postHead}>{item.postedBy.name}</Text>
+                </TouchableOpacity>
               </View>
               <Image
                 source={{ uri: item.downloadURL }}
                 style={styles.postImage}
               />
               <View style={{ flexDirection: "row" }}>
-                <Text
+                <TouchableOpacity
+                  onPress={() =>
+                    navigation.navigate("Profile", {
+                      uid: item.postedBy.uid,
+                      name: item.postedBy.name,
+                      email: item.postedBy.email,
+                      pic: item.postedBy.pic,
+                    })
+                  }
+                >
+                  <Text
+                    style={[
+                      styles.postHead,
+                      { paddingVertical: 10, paddingLeft: 15, paddingRight: 5 },
+                    ]}
+                  >
+                    {item.postedBy.name}
+                  </Text>
+                </TouchableOpacity>
+                {/* <Text
                   style={[
                     styles.postHead,
                     { paddingVertical: 10, paddingLeft: 15, paddingRight: 5 },
                   ]}
                 >
                   {item.postedBy.name}
-                </Text>
+                </Text> */}
                 <Text
                   style={[
                     styles.postHead,

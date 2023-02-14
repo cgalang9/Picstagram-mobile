@@ -46,13 +46,14 @@ export default function Search({ navigation }) {
         renderItem={({ item }) => {
           return (
             <TouchableOpacity
-              horizontal={false}
+              // horizontal={false}
               style={styles.searchItem}
               onPress={() =>
                 navigation.navigate("Profile", {
                   uid: item.id,
                   name: item.name,
                   email: item.email,
+                  pic: item.pic,
                 })
               }
             >

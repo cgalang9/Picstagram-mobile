@@ -64,10 +64,6 @@ export default function Profile({ route, navigation }) {
   }, [route]);
 
   useEffect(() => {
-    dispatch(getUserFollowingThunk(route.params.uid));
-  }, [route]);
-
-  useEffect(() => {
     if (followingArr.includes(route.params.uid)) {
       setFollowing(true);
     } else {
@@ -164,7 +160,6 @@ export default function Profile({ route, navigation }) {
     return <View></View>;
   }
 
-  console.log(user.pic);
   return (
     <SafeAreaView style={styles.container}>
       <View style={styles.infoContainer}>

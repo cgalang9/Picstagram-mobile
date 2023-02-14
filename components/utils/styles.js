@@ -188,7 +188,7 @@ const styles = StyleSheet.create({
     color: "white",
     paddingHorizontal: 10,
     fontSize: 17,
-    fontFamily: "Farah",
+    fontFamily: "Arial",
   },
   inputContainer: {
     flex: 1,

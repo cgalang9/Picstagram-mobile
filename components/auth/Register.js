@@ -57,6 +57,7 @@ export default function Register() {
           const docRef = await setDoc(doc(db, "users", user.uid), {
             name,
             email,
+            pic: null,
           });
         } catch (e) {
           console.error("Error adding document: ", e);

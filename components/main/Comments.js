@@ -73,7 +73,18 @@ function Comments({ route, navigation }) {
               style={styles.userIconComment}
             />
             <View>
-              <Text style={styles.commentName}>{item.postedBy.name}</Text>
+              <TouchableOpacity
+                onPress={() =>
+                  navigation.navigate("Profile", {
+                    uid: item.postedBy.uid,
+                    name: item.postedBy.name,
+                    email: item.postedBy.email,
+                    pic: item.postedBy.pic,
+                  })
+                }
+              >
+                <Text style={styles.commentName}>{item.postedBy.name}</Text>
+              </TouchableOpacity>
               <Text style={styles.commentText}>{item.text}</Text>
             </View>
           </View>
