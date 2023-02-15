@@ -2,13 +2,65 @@
 
 ## Current Features
 
-1. Log In/Register/Logout ultilizing Firebase
-2. Feed - see post of friends on feed
-3. Add post - utilize phone camera or gallary to add photo and caption
-4. Create/View post comments
-5. Search for users
-6. Profile page
-7. Update/Add profile picture
+<br />
+<br />
+
+### 1. Log In/Register/Logout - ultilizing Firebase
+
+<br />
+
+<img src="./assets/screenshots/landing.PNG" width="200" height="400"> &nbsp; &nbsp; &nbsp; &nbsp;
+<img src="./assets/screenshots/register.PNG" width="200" height="400"> &nbsp; &nbsp; &nbsp; &nbsp;
+<img src="./assets/screenshots/signin.PNG" width="200" height="400">
+
+<br />
+<br />
+
+### 2. Feed - see post of friends on feed
+
+<br />
+
+   <img src="./assets/screenshots/feed.PNG" width="200" height="400">
+
+<br />
+<br />
+
+### 3. Add post - utilize phone camera or gallary to add photo and caption
+
+<br />
+
+<img src="./assets/screenshots/add.PNG" width="200" height="400">
+
+<br />
+<br />
+
+### 4. Create/View post comments
+
+<br />
+
+   <img src="./assets/screenshots/comments.PNG" width="200" height="400">
+
+<br />
+<br />
+
+### 5. Search for users
+
+<br />
+
+   <img src="./assets/screenshots/search.PNG" width="200" height="400">
+
+<br />
+<br />
+
+### 6. Profile page - displays user posts, how many user they follow. Current user can logout and update profile picture from this sceen
+
+<br />
+
+<img src="./assets/screenshots/currProfile.PNG" width="200" height="400"> &nbsp; &nbsp; &nbsp; &nbsp;
+<img src="./assets/screenshots/userProfile.PNG" width="200" height="400">
+
+<br />
+<br />
 
 ## Upcomming Features
 
