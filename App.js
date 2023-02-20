@@ -12,6 +12,7 @@ import Main from "./components/Main";
 import Add from "./components/main/Add";
 import Save from "./components/main/Save";
 import Comments from "./components/main/Comments";
+import UserFeed from "./components/main/UserFeed";
 import { useState } from "react";
 import { getAuth, onAuthStateChanged } from "firebase/auth";
 import { getStorage } from "firebase/storage";
@@ -155,6 +156,18 @@ export default function App() {
               },
               headerTintColor: "white",
               headerBackTitleVisible: false,
+            })}
+          />
+          <Stack.Screen
+            name="UserFeed"
+            component={UserFeed}
+            options={({ navigation }) => ({
+              headerStyle: {
+                backgroundColor: "black",
+              },
+              headerTintColor: "white",
+              headerBackTitleVisible: false,
+              title: "",
             })}
           />
         </Stack.Navigator>

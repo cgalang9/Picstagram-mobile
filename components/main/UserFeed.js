@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState, useRef, useCallback } from "react";
 import {
   View,
   Text,
@@ -8,8 +8,6 @@ import {
   SafeAreaView,
 } from "react-native";
 import { useDispatch, useSelector } from "react-redux";
-import { getFeedPostsThunk } from "../../store/feedPosts";
-import { getUserFollowingThunk } from "../../store/following";
 import {
   useFonts,
   GrandHotel_400Regular,
@@ -17,19 +15,10 @@ import {
 import { wrapper, styles } from "../utils/styles";
 import { Feather } from "@expo/vector-icons";
 
-export default function Feed({ navigation }) {
-  const followingArr = useSelector((state) => state.following);
-  const posts = useSelector((state) => state.feedPosts);
+export default function UserFeed({ route, navigation }) {
   const currUser = useSelector((state) => state.user.currUser);
-  const dispatch = useDispatch();
-
-  useEffect(() => {
-    if (currUser) dispatch(getUserFollowingThunk(currUser.uid));
-  }, [currUser]);
-
-  useEffect(() => {
-    dispatch(getFeedPostsThunk(followingArr));
-  }, [followingArr, currUser]);
+  const postIdx = route.params.index;
+  const posts = route.params.posts;
 
   let [fontsLoaded] = useFonts({
     GrandHotel_400Regular,
@@ -61,6 +50,10 @@ export default function Feed({ navigation }) {
       </View>
       <View style={wrapper.wrapper}>
         <FlatList
+          initialScrollIndex={postIdx}
+          onScrollToIndexFailed={(e) => {
+            console.log(e);
+          }}
           numColumns={1}
           horizontal={false}
           data={posts}

@@ -230,13 +230,22 @@ export default function Profile({ route, navigation }) {
           numColumns={3}
           horizontal={false}
           data={userPosts}
-          renderItem={({ item }) => {
+          renderItem={({ item, index }) => {
             return (
               <View style={styles.containerImage}>
-                <Image
-                  source={{ uri: item.downloadURL }}
-                  style={styles.image}
-                />
+                <TouchableOpacity
+                  onPress={() =>
+                    navigation.navigate("UserFeed", {
+                      index: index,
+                      posts: userPosts,
+                    })
+                  }
+                >
+                  <Image
+                    source={{ uri: item.downloadURL }}
+                    style={styles.image}
+                  />
+                </TouchableOpacity>
               </View>
             );
           }}

@@ -46,7 +46,6 @@ export default function Search({ navigation }) {
         renderItem={({ item }) => {
           return (
             <TouchableOpacity
-              // horizontal={false}
               style={styles.searchItem}
               onPress={() =>
                 navigation.navigate("Profile", {
